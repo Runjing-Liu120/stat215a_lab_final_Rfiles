@@ -5,8 +5,12 @@ set.seed(54362089)
 load(paste(data_path, 'fMRIdata.RData', sep = ''))
 n_obs <- dim(fit_feat)[1]
 
+# some columns are constant; remove them 
+constant_colns <- apply(fit_feat, 2, sd) == 0
+fit_feat <- fit_feat[, !constant_colns]
+
 # normalize features
-scale_features <- FALSE
+scale_features <- TRUE
 if(scale_features){
   fit_feat <- scale(fit_feat)
 }
