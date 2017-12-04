@@ -5,7 +5,7 @@
 
 # set the seed
 args <- commandArgs(TRUE)
-bootstrap_no <- as.double(args[1])
+bootstrap_no <- as.integer(args[1])
 set.seed(425254245 + bootstrap_no)
 
 # load libraries
