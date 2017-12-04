@@ -1,0 +1,1 @@
+sbatch --array 1-200 run_lass_bootstrap.sh
