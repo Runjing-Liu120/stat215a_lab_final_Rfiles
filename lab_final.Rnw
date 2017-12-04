@@ -47,7 +47,7 @@ load('./R/results/correlations_lasso.RData')
 load('./R/results/penalties_lasso.RData')
 
 lasso_penalties_all <- as.data.frame(lasso_penalties_all)
-lasso_correlations_all_all <- as.data.frame(lasso_correlations_all)
+lasso_correlations_all <- as.data.frame(lasso_correlations_all)
 
 @
 
@@ -248,11 +248,23 @@ lasso_corr_results %>%
 \end{figure}
 
 <<load_bootstrap_results>>=
-load_bootstrap_results <- function(sample, path = './R/results/bootstrap_results/'){
-  file_name <- paste(path, 'bootstrap_sample_', sample, sep = '')
-  load(file_name)
-  return(fit)
+load_bootstrap_results <- function(path = './R/results/bootstrap_results/'){
+  # loads all the bootstrap fits into a list
+  bootstrap_fits <- list()
+  for(i in 1:200){
+      file_name <- paste(path, 'bootstrap_sample_', i, '.RData', sep = '')
+      load(file_name)
+      
+      bootstrap_fits[[i]] <- fit
+  }
+  
+  return(bootstrap_fits)
 }
+
+
+bootstrap_fits <- load_bootstrap_results()
+
+
 @
 
 

@@ -8,6 +8,8 @@ args <- commandArgs(TRUE)
 bootstrap_no <- as.integer(args[1])
 set.seed(425254245 + bootstrap_no)
 
+print(bootstrap_no)
+
 # load libraries
 library(tidyverse)
 library(glmnet)
@@ -47,3 +49,6 @@ fit <- glmnet(feat_sample, resp_sample[, voxel], lambda = lambda_escv)
 filename <- paste('bootstrap_sample_', bootstrap_no, '.RData', sep = '')
 save(fit, file = paste('./', filename, sep = ''))
 print('done. ')
+
+print('devratio: ')
+print(fit$dev.ratio)
