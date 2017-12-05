@@ -3,13 +3,6 @@
 
 # we call this script from the terminal, and run it in parallel to save time. 
 
-# set the seed
-args <- commandArgs(TRUE)
-bootstrap_no <- as.integer(args[1])
-set.seed(425254245 + bootstrap_no)
-
-print(bootstrap_no)
-
 # load libraries
 library(tidyverse)
 library(glmnet)
@@ -19,13 +12,21 @@ source('../../model_selection_utils.R')
 data_path <- '../../../data/'
 source('../../load_split_data.R')
 
+
+# set the seed
+args <- commandArgs(TRUE)
+bootstrap_no <- as.integer(args[1])
+set.seed(425254245 + bootstrap_no)
+
+print(425254245 + bootstrap_no)
+
 # bootstrap sample
 n_obs <- dim(feat_train)[1]
 sample_indx <- sample(1:n_obs, n_obs, replace = TRUE)
 
 feat_sample <- feat_train[sample_indx, ]
 resp_sample <- resp_train[sample_indx, ]
-
+print(sample_indx)
 # we will look at voxel 9
 voxel <- 9
 
