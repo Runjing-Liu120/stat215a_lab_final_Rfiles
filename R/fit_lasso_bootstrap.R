@@ -16,6 +16,7 @@ args <- commandArgs(TRUE)
 
 # elastic net parameter
 alpha <- as.double(args[2])
+print(alpha)
 
 # set the seed
 bootstrap_no <- as.integer(args[1])
@@ -29,7 +30,7 @@ sample_indx <- sample(1:n_obs, n_obs, replace = TRUE)
 
 feat_sample <- feat_train[sample_indx, ]
 resp_sample <- resp_train[sample_indx, ]
-print(sample_indx)
+# print(sample_indx)
 # we will look at voxel 9
 voxel <- 9
 
@@ -54,4 +55,5 @@ fit <- glmnet(feat_sample, resp_sample[, voxel], lambda = lambda_escv, alpha = a
 # save 
 filename <- paste('bootstrap_sample_', bootstrap_no, '.RData', sep = '')
 save(fit, file = paste('./', filename, sep = ''))
+
 print('done. ')
