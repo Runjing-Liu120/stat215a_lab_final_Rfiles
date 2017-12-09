@@ -4,7 +4,7 @@ select_lambda_IC <- function(fit, feat_train, resp_train, voxel = 1){
   
   # get MSE
   resp_pred <- predict(fit, newx = feat_train, s = fit$lambda)
-  mse <- colSums((resp_pred - resp_train[, voxel])^2)
+  mse <- apply((resp_pred - resp_train[, voxel])^2, 2, sum)
   
   n_obs <- dim(feat_train)[1]
   # compute AIC
@@ -56,9 +56,9 @@ select_lambda_EC <- function(feat_train, resp_train, lambdas, folds = 10, voxel 
   # TODO: remove for loop, use vector operations ...
   for(i in 1:length(lambdas)){
     y_lambda <- y_es[, i, ] # prections at lambda[i]
-    y_mean <- rowMeans(y_lambda)
+    y_mean <- apply(y_lambda, 1,mean)
     
-    es[i] <- mean(colSums((y_lambda - y_mean)^2)) / sum(y_mean^2)
+    es[i] <- mean(apply((y_lambda - y_mean)^2, 2, sum)) / sum(y_mean^2)
   }
   
   return(es)

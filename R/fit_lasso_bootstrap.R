@@ -12,9 +12,12 @@ source('../../model_selection_utils.R')
 data_path <- '../../../data/'
 source('../../load_split_data.R')
 
+args <- commandArgs(TRUE)
+
+# elastic net parameter
+alpha <- as.double(args[2])
 
 # set the seed
-args <- commandArgs(TRUE)
 bootstrap_no <- as.integer(args[1])
 set.seed(425254245 + bootstrap_no)
 
@@ -32,24 +35,23 @@ voxel <- 9
 
 # run CV
 print('running cv ...')
-cvfit <- cv.glmnet(feat_sample, resp_sample[, voxel], nfolds = 10, type.measure = 'mse')
+cvfit <- cv.glmnet(feat_sample, resp_sample[, voxel], nfolds = 10, type.measure = 'mse', 
+                   alpha = alpha)
 lambda_cv <- cvfit$lambda.min
 lambdas <- cvfit$lambda
 
 # run ES
 print('running escv ...')
-es <- select_lambda_EC(feat_sample, resp_sample, lambda = lambdas, folds = 10, voxel = voxel)
+es <- select_lambda_EC(feat_sample, resp_sample, lambda = lambdas, folds = 10, voxel = voxel, 
+                       alpha = alpha)
 
 es_constrained <- es[lambdas >= lambda_cv] # we only consider more regularized models
 lambda_escv <- lambdas[lambdas >= lambda_cv][which.min(es_constrained)]
 
 # get the fit with the selected lambda
-fit <- glmnet(feat_sample, resp_sample[, voxel], lambda = lambda_escv)
+fit <- glmnet(feat_sample, resp_sample[, voxel], lambda = lambda_escv, alpha = alpha)
 
 # save 
 filename <- paste('bootstrap_sample_', bootstrap_no, '.RData', sep = '')
 save(fit, file = paste('./', filename, sep = ''))
 print('done. ')
-
-print('devratio: ')
-print(fit$dev.ratio)
