@@ -1,10 +1,9 @@
-# script to consolidate results for all 20 voxels
-# saves a 20 X 5 dataframe with the found penalties for the 5 penalties 
-# AIC, BIC, AICc, CV, ESCV for all 20 voxels
-# saves another 20 X 5 dataframe with the correlations for the 5 models
-# on the 20 voxels
+# script gets the results for the lasso or the elastic net
+# for all 20 voxels
 
-# 
+# returns two 20 X 5 dataframes, one storing selected lambdas for all 20 voxels using 
+# the five model selection techniques; the other gives the correlation scores on the 
+# validation set
 
 args <- commandArgs(TRUE)
 alpha <- as.double(args[1]) # elastic net paramter; 1 gives LASSO

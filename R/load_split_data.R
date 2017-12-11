@@ -1,5 +1,6 @@
-# this script loads, normalizes the features, and 
+# this script loads the data, normalizes the features, and 
 # splits the data into training, validation, and testing
+
 set.seed(54362089)
 
 load(paste(data_path, 'fMRIdata.RData', sep = ''))
@@ -8,11 +9,13 @@ n_obs <- dim(fit_feat)[1]
 # some columns are constant; remove them 
 constant_colns <- apply(fit_feat, 2, sd) == 0
 fit_feat <- fit_feat[, !constant_colns]
+val_feat <- val_feat[, !constant_colns]
 
 # normalize features
 scale_features <- TRUE
 if(scale_features){
   fit_feat <- scale(fit_feat)
+  val_feat <- scale(val_feat)
 }
 
 propn_train <- 0.6

@@ -1,7 +1,7 @@
 # this script draws one bootstrap sample and saves a fit
-# we fit lasso with penalty parameter selected by ESCV
+# we fit lasso or elastic net, with penalty parameter selected by ESCV
 
-# we call this script from the terminal, and run it in parallel to save time. 
+# we wil call this script from the terminal, and run it in parallel to save time. 
 
 # load libraries
 library(tidyverse)
@@ -15,7 +15,8 @@ source('../../load_split_data.R')
 args <- commandArgs(TRUE)
 
 # elastic net parameter
-alpha <- as.double(args[2])
+# alpha = 1 gives lasso
+alpha <- as.double(args[2]) 
 print(alpha)
 
 # set the seed

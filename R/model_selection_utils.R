@@ -1,6 +1,7 @@
+# functions to select lambda
+
 select_lambda_IC <- function(fit, feat_train, resp_train, voxel = 1){
-  # fits l1 penalized least squares for a range of lambda
-  # returns the aic and bic
+  # returns the AIC, AICc, BIC for the range of lambda found in the given fit
   
   # get MSE
   resp_pred <- predict(fit, newx = feat_train, s = fit$lambda)
